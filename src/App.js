@@ -24,22 +24,25 @@ const App = () => {
   };
 
   const closeDetails = () => {
-    setButtonOpen(null);
+    setButtonOpen(false);
   };
-
+  
   useEffect(() => {
     axios
-      .get(`https://swapi.dev/api/people`)
+      .get('https://swapi.dev/api/people/')
       .then((res) => {
         console.log("### res.data", res.data);
+        console.log("### res.data.results", res.data);
         
 
-        const characters = res.data.results;
+        let characters = res.data;
 
         let id = 1;
-        characters.forEach((item) => (item.id = id++));
-        // console.log(characters);
+        characters?.forEach((item) => (item.id = id++));
+        console.log('##########S#########', characters);
+
         setStarFolk(characters);
+        console.log(`### starFolk at end of use effect ${starFolk}`)
       })
       .catch((err) => {
         console.error(err);
@@ -58,14 +61,16 @@ const App = () => {
     justify-content: space-between;
   `;
 
-  // console.log("### starFolk", starFolk);
+  console.log("### starFolk", starFolk);
   // console.log("### starFolk.type", typeof starFolk);
+  
   return (
     <div className="App">
       <h1 className="Header">Characters</h1>
       <StarDiv>
         {starFolk &&
           starFolk.map((info) => {
+            info.id = info.name;
             return (
               <>
               
@@ -83,7 +88,10 @@ const App = () => {
                     info={buttonOpen}
                     closeDetails={closeDetails}
                   />
-                )}
+                )} 
+                {
+                  !buttonOpen &&  <button onClick={openDetails}>Open</button>
+                }
               </>
             );
           })}

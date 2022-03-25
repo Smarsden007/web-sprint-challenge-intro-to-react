@@ -18,6 +18,8 @@ export default function Details(props)
 
 
             <button onClick={props.closeDetails}>Close</button>
+            <button onClick={props.openDetails}>Open</button>
+
         </div>
     )
 }
